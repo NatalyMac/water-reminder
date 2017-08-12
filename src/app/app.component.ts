@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
+import { Drink } from './drink';
 
-
-export class WhatToDrink  {
-  id: string;
-  name: string;
-  hydro: number;
-  volume: number;
-}
-
-const DRINKS: WhatToDrink[] = [
+const DRINKS: Drink[] = [
   { id: 'a11', name: 'Water', hydro: 100, volume: 200 },
   { id: 'a12', name: 'Tea', hydro: 10, volume: 250 },
   { id: 'a13', name: 'Milk', hydro: 80, volume: 200 },
@@ -19,19 +12,19 @@ const DRINKS: WhatToDrink[] = [
 @Component({
   selector: 'my-app',
   template: `
-    <h1>{{title}}</h1><h2>{{whatToDrink.name}} to drink!</h2>
+    <h1>{{title}}</h1>
     
     <h2>My drinks</h2>
+   
     <ul class="drinks">
-      <li  *ngFor="let drink of drinks" (click)="onSelect(drink)">
+      <li  *ngFor="let drink of drinks"
+           [class.selected]="drink === selectedDrink"
+           (click)="onSelect(drink)">
         <span class="badge">{{drink.id}}</span>{{drink.name}}
       </li>
     </ul>
-    
-    <div><label>id: </label>{{whatToDrink.id}}</div>
-    <input [(ngModel)]="whatToDrink.name" placeholder="name">
-    <div><label>hydro: </label>{{whatToDrink.hydro}}%</div>
-    <div><label>name: </label>{{whatToDrink.volume}}ml</div>
+
+    <drink-detail [drink]="selectedDrink"></drink-detail>
   `,
   styles: [`
   .selected {
@@ -85,8 +78,12 @@ const DRINKS: WhatToDrink[] = [
 })
 
 export class AppComponent  {
-  title = 'Time to water!';
-  drinks = DRINKS;
-  whatToDrink = { id: 'a111', name: 'Water', hydro: 100, volume: 500 };
+  public title = 'Time to water!';
+  public drinks = DRINKS;
+  public selectedDrink: Drink;
+
+  onSelect(drink: Drink): void {
+    this.selectedDrink = drink;
+  }
 }
 
