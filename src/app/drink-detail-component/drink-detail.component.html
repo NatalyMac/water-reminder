@@ -1,0 +1,8 @@
+<button (click)="goBack()">Back</button>
+<div *ngIf="drink">
+  <h2>{{drink.name}} details!</h2>
+  <div><label>id: </label>{{drink.id}}</div>
+  <input [(ngModel)]="drink.name" placeholder="name">
+  <div><label>hydro: </label>{{drink.hydro}}%</div>
+  <div><label>name: </label>{{drink.volume}}ml</div>
+</div>

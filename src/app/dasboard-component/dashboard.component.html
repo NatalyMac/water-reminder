@@ -1,0 +1,10 @@
+<h3>What are inside?</h3>
+<div class="grid grid-pad">
+  <a *ngFor="let drink of drinks" [routerLink]="['/detail', drink.id]" class="col-1-4">
+    <div class="module drink">
+      <h4>{{drink.name}}</h4>
+    </div>
+  </a>
+  <a routerLink="/drinks">Maybe drink?</a>
+  <my-cat></my-cat>
+</div>
