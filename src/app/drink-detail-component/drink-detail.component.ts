@@ -30,4 +30,9 @@ export class DrinkDetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  save(): void {
+    this.drinkService.update(this.drink)
+      .then(() => this.goBack());
+  }
 }

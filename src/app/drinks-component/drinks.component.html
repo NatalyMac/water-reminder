@@ -1,18 +1,35 @@
 <h2>I would like to drink ........</h2>
+
 <ul class="drinks">
   <li  *ngFor="let drink of drinks"
        [class.selected]="drink === selectedDrink"
        (click)="onSelect(drink)">
-    <span class="badge">{{drink.id}}</span>{{drink.name}}
+    <span class="badge">{{drink.volume}} ml</span>{{drink.title}}
+    <button class="delete"
+            (click)="delete(drink); $event.stopPropagation()">x</button>
   </li>
 </ul>
 
 <div *ngIf="selectedDrink">
   <h2>
-    {{selectedDrink.name | uppercase}} ...mmm I like it!
+    {{selectedDrink.title | uppercase}} ...mmm I like it!
   </h2>
   <button (click)="gotoDetail()">View Details</button>
-  <button (click)="goDrink()">Drink It!</button>
+  <button (click)="goDrink(selectedDrink)">Drink It!</button>
 </div>
 
 <my-cat></my-cat>
+
+<h2>Would you like some-thing other? </h2>
+
+<div>
+  <div><label>Drink name:</label> <input #drinkTitle /></div>
+  <div><label>Drink hydro %:</label> <input #drinkHydro /></div>
+  <div><label>Drink volume ml:</label> <input #drinkVolume /></div>
+  <button (click)="add(drinkTitle.value, drinkHydro.value, drinkVolume.value );
+                       drinkTitle.value=''; drinkHydro.value='';  drinkVolume.value=''">
+    Add
+  </button>
+</div>
+
+<button (click)="sendMessage()">Send Message</button>

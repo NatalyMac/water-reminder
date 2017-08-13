@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 
 import { Drink } from '../models/drink';
 import { DrinkService } from '../service/drink.service';
+import { MessageService } from '../service/message.service';
 
 
 @Component({
+  moduleId: module.id,
   selector: 'my-drinks',
   templateUrl: './drinks.component.html',
   styleUrls: ['./drinks.component.css'],
@@ -19,7 +21,7 @@ export class DrinksComponent  implements OnInit {
   constructor(
     private drinkService: DrinkService,
     private router: Router,
-
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -27,9 +29,9 @@ export class DrinksComponent  implements OnInit {
   }
 
   getDrinks(): void {
-
-    this.drinkService.getDrinks().then(drinks =>  this.drinks = drinks);
-
+    this.drinkService.getDrinks().then(drinks => {
+      return this.drinks = drinks;
+    });
   }
 
   onSelect(drink: Drink): void {
@@ -37,11 +39,47 @@ export class DrinksComponent  implements OnInit {
   }
 
   gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedDrink.id]);
+    this.router.navigate(['/detail', this.selectedDrink._id]);
   }
 
-  goDrink(): void {
-    // this.router.navigate(['/detail', this.selectedDrink.id]);
-    console.log('should add to cat inside');
+  goDrink(drink: Drink, user: string): void {
+    if (!drink) { return; }
+    this.drinkService.addDrinksInside(drink._id, '')
+      .then(res => {
+        this.drinkService.getDrinksInside();
+      });
+  }
+
+  add(title: string, hydro: number, volume: number): void {
+    title = title.trim();
+    if (!title && !hydro && !volume) { return; }
+    this.drinkService.create(title, hydro, volume)
+      .then(drink => {
+        this.drinks.push(drink);
+        this.selectedDrink = null;
+      });
+  }
+
+  delete(drink: Drink): void {
+    this.drinkService
+      .delete(drink._id)
+      .then((message) => {
+        if (message.text() !== '400') {
+          this.drinks = this.drinks.filter(d => d !== drink);
+          if (this.selectedDrink === drink) { this.selectedDrink = null; }
+        } else {
+          alert('Cannot delete. It is used');
+        }
+      });
+  }
+
+  sendMessage(): void {
+    // send message to subscribers via observable subject
+    this.messageService.sendMessage('Message from Drinks Component to Cat Component!');
+  }
+
+  clearMessage(): void {
+    // clear message
+    this.messageService.clearMessage();
   }
 }

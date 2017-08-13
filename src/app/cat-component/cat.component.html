@@ -1,4 +1,5 @@
 <div>
-  <span> Total </span>
+  <span> Total today ml {{total}}</span>
   <a routerLink="/dashboard"> <img src="assets/images/200w.webp"/></a>
+  <div *ngIf="message" class="alert alert-success">{{message.text}}</div>
 </div>

@@ -1,8 +1,21 @@
 <button (click)="goBack()">Back</button>
 <div *ngIf="drink">
-  <h2>{{drink.name}} details!</h2>
-  <div><label>id: </label>{{drink.id}}</div>
-  <input [(ngModel)]="drink.name" placeholder="name">
-  <div><label>hydro: </label>{{drink.hydro}}%</div>
-  <div><label>name: </label>{{drink.volume}}ml</div>
+  <h2>{{drink.title}} details!</h2>
+  <div>
+    <label>id: </label>
+    {{drink._id}}
+  </div>
+  <div>
+    <label>name:</label>
+  <input [(ngModel)]="drink.title" placeholder="name">
+  </div>
+  <div>
+    <label>hydro %:</label>
+    <input [(ngModel)]="drink.hydro" placeholder="hydro">
+  </div>
+  <div>
+    <label>volume ml:</label>
+    <input [(ngModel)]="drink.volume" placeholder="volume">
+  </div>
 </div>
+<button (click)="save()">Save</button>

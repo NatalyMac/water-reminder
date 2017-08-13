@@ -1,27 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy} from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
+import { MessageService } from '../service/message.service';
+
+import { DrinkUser } from '../models/drink-user';
 import { DrinkService } from '../service/drink.service';
 
 
+
 @Component({
+  moduleId: module.id,
   selector: 'my-cat',
   templateUrl: './cat.component.html',
 })
 
-export class CatComponent  implements OnInit {
-  public total: number;
+export class CatComponent  implements OnInit, OnDestroy {
+  public drinks: DrinkUser[] = [];
+  public total: number = 0;
+  message: any;
+  subscription: Subscription;
 
   constructor(
     private drinkService: DrinkService,
-
-  ) { }
+    private messageService: MessageService) {
+    this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
+  }
 
   ngOnInit(): void {
     this.getTotal();
   }
 
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
+
   getTotal(): void {
-    this.drinkService.getTotal().then(total =>  this.total = total);
+  this.drinkService.getDrinksInside()
+    .then(drinks => {
+      for (let drink of drinks) {
+        this.total = this.total + drink.total * drink.drinkId.volume * drink.drinkId.hydro / 100;
+      }
+      return [this.drinks = drinks, this.total];
+    });
   }
 }

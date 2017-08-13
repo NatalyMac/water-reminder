@@ -1,6 +1,7 @@
 export class Drink  {
-  id: string;
-  name: string;
+  _id: string;
+  title: string;
   hydro: number;
   volume: number;
+  created_date: string;
 }
