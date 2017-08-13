@@ -8,6 +8,7 @@ import { DrinkService } from '../service/drink.service';
 
 
 @Component({
+  moduleId: module.id,
   selector: 'drink-detail',
   templateUrl: './drink-detail.component.html',
   styleUrls: ['./drink-detail.component.css'],

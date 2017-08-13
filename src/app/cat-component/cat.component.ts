@@ -18,13 +18,18 @@ import { DrinkService } from '../service/drink.service';
 export class CatComponent  implements OnInit, OnDestroy {
   public drinks: DrinkUser[] = [];
   public total: number = 0;
-  message: any;
-  subscription: Subscription;
+  public subscription: Subscription;
 
   constructor(
     private drinkService: DrinkService,
     private messageService: MessageService) {
-    this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
+    this.subscription = this.messageService
+      .getMessage()
+      .subscribe(message => {
+        if (message.text === 'refresh total') {
+          this.getTotal();
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -39,6 +44,7 @@ export class CatComponent  implements OnInit, OnDestroy {
   getTotal(): void {
   this.drinkService.getDrinksInside()
     .then(drinks => {
+      this.total = 0;
       for (let drink of drinks) {
         this.total = this.total + drink.total * drink.drinkId.volume * drink.drinkId.hydro / 100;
       }

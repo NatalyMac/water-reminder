@@ -4,13 +4,14 @@ import { DrinkService } from '../service/drink.service';
 
 
 @Component({
+  moduleId: module.id,
   selector: 'my-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  drinks: DrinkUser[] = [];
-  total: number = 0;
+  public drinks: DrinkUser[] = [];
+  public total: number = 0;
 
   constructor(private drinkService: DrinkService) { }
 

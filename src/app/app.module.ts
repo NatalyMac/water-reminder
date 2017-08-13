@@ -11,7 +11,7 @@ import { DrinkService } from './service/drink.service';
 
 import { AppRoutingModule }     from './app-routing.module';
 import { AppComponent }  from './app.component';
-import {MessageService} from "./service/message.service";
+import {MessageService} from './service/message.service';
 
 @NgModule({
   imports:      [

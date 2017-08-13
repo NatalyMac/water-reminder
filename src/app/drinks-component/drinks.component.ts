@@ -47,6 +47,7 @@ export class DrinksComponent  implements OnInit {
     this.drinkService.addDrinksInside(drink._id, '')
       .then(res => {
         this.drinkService.getDrinksInside();
+        this.sendMessage('refresh total');
       });
   }
 
@@ -73,9 +74,9 @@ export class DrinksComponent  implements OnInit {
       });
   }
 
-  sendMessage(): void {
+  sendMessage(what: string): void {
     // send message to subscribers via observable subject
-    this.messageService.sendMessage('Message from Drinks Component to Cat Component!');
+    this.messageService.sendMessage(what);
   }
 
   clearMessage(): void {
