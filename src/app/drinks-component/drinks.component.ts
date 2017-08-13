@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 
 import { Drink } from '../models/drink';
 import { DrinkService } from '../service/drink.service';
+import { DrinkWebsocketService } from '../service/drink-websocket.service';
 import { MessageService } from '../service/message.service';
-
 
 @Component({
   moduleId: module.id,
@@ -21,8 +21,28 @@ export class DrinksComponent  implements OnInit {
   constructor(
     private drinkService: DrinkService,
     private router: Router,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private drinkWebsocketService: DrinkWebsocketService) {
+        drinkWebsocketService.drinks.subscribe(drink => {
+        console.log('Response from websocket: ' + drink.title);
+    });
+  }
+
+  sendMsgSocket(drink: Drink) {
+    if (!drink) { return; }
+    console.log('new message from client to websocket: ', drink.title);
+    this.drinkWebsocketService.drinks.next(drink);
+    // this.message = '';
+  }
+
+  goDrink(drink: Drink, user: string): void {
+    if (!drink) { return; }
+    this.drinkService.addDrinksInside(drink._id, '')
+      .then(res => {
+        this.drinkService.getDrinksInside();
+        this.sendMessage('refresh total');
+      });
+  }
 
   ngOnInit(): void {
     this.getDrinks();
@@ -40,15 +60,6 @@ export class DrinksComponent  implements OnInit {
 
   gotoDetail(): void {
     this.router.navigate(['/detail', this.selectedDrink._id]);
-  }
-
-  goDrink(drink: Drink, user: string): void {
-    if (!drink) { return; }
-    this.drinkService.addDrinksInside(drink._id, '')
-      .then(res => {
-        this.drinkService.getDrinksInside();
-        this.sendMessage('refresh total');
-      });
   }
 
   add(title: string, hydro: number, volume: number): void {

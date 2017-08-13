@@ -23,7 +23,6 @@ export class DrinkService {
     return this.http.get(this.drinksUrl)
       .toPromise()
       .then(response => {
-        console.log(response.json());
         return response.json() as Drink[];
       })
       .catch(this.handleError);

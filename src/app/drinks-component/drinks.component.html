@@ -15,6 +15,7 @@
     {{selectedDrink.title | uppercase}} ...mmm I like it!
   </h2>
   <button (click)="gotoDetail()">View Details</button>
+  <button (click)="sendMsgSocket(selectedDrink)">Send MessageSocket</button>
   <button (click)="goDrink(selectedDrink)">Drink It!</button>
 </div>
 

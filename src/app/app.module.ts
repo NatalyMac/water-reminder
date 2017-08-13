@@ -11,7 +11,9 @@ import { DrinkService } from './service/drink.service';
 
 import { AppRoutingModule }     from './app-routing.module';
 import { AppComponent }  from './app.component';
-import {MessageService} from './service/message.service';
+import { MessageService } from './service/message.service';
+import { WebsocketService} from './service/websocket.service';
+import { DrinkWebsocketService } from './service/drink-websocket.service';
 
 @NgModule({
   imports:      [
@@ -29,7 +31,9 @@ import {MessageService} from './service/message.service';
   ],
   providers: [
     DrinkService,
-    MessageService
+    MessageService,
+    WebsocketService,
+    DrinkWebsocketService,
   ],
   bootstrap:    [ AppComponent ]
 })
